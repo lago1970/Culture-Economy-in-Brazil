@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1544270551858.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "4261187601",
+    "id" : "204ACFC6",
+    "lastKnownWriteTime" : 1544272105,
+    "last_content_update" : 1544272105107,
+    "path" : "~/Documents/AMBIENTE R/Culture Economy in Brazil/CNAES_BRASIL.Rmd",
+    "project_path" : "CNAES_BRASIL.Rmd",
+    "properties" : {
+        "cursorPosition" : "1,13",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}
