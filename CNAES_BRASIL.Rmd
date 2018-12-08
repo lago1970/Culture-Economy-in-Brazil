@@ -1,0 +1,116 @@
+---
+title: "CNAEs BRASIL"
+author: "Luiz Antonio Gouveia de Oliveira"
+date: "30/11/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#### __1. Instalando e carregando os pacotes necessarios__  
+
+```{r, echo = TRUE, message=FALSE}
+
+install.packages(c("tidyverse", "devtools", "skimr", "visdat", "DataExplorer", "magrittr"))
+library(tidyverse)
+library(devtools)
+library(skimr)
+library(visdat)
+library(DataExplorer)
+library(magrittr)
+```
+
+#### __2. Carregando a base de dados__  
+```{r}
+#cnaes.brasil.2018 <- read.csv("C:/Users/39121046387/Documents/empresa.csv", sep=";")
+
+```
+
+#### __3. Inspecionando os dados__ 
+
+```{r}
+dim(empresa)
+glimpse(empresa)
+```
+
+
+#### __3. Manipulando os dados__ 
+
+##### 3.1 Selecionando as variaveis de interesse  
+
+```{r}
+cnaes.ajuste <- select(empresa, identificador_matrizfilial, razao_socialnome_empresarial, nome_fantasia, co_pais, nm_pais, data_inicio_atividade, cnae_fiscal, cep, uf, codigo_municipio, municipio, porte_empresa, opcao_pelo_simples, situacao_cadastral)
+
+matriz_ativa_brasil <- filter(cnaes.ajuste, identificador_matrizfilial == 1, situacao_cadastral == 2)
+
+matriz_ativa_brasil <- transform(matriz_ativa_brasil, porte_empresa = factor(porte_empresa, label = c("Nao informado", "Microempresa", "Empresa de pequeno porte","Demais"), levels = c(0, 1, 3, 5)))
+
+#cnaes.ajuste <- mutate(porte_empresa = ifelse(0 = "NAO INFORMADO", 1 = "MICROEMPRESA", 3 = "EMPRESA DE PEQUENO PORTE", 5 = "DEMAIS"))
+
+```
+
+##### 3.2 Inspecionando os dados ajustados  
+
+```{r}
+dim(matriz_ativa_brasil)
+glimpse(matriz_ativa_brasil)
+
+```
+
+
+##### 3.3 Agrupando os dados  
+
+* Por UF
+
+```{r}
+by_uf <- matriz_ativa_brasil %>%
+  group_by(uf) %>%
+  count(uf) %>%
+  arrange(desc(n))
+
+head(by_uf, 27)
+
+```
+
+* Por PA?S  
+
+```{r}
+
+by_pais <- filter(matriz_ativa_brasil, uf == "EX", !is.na(co_pais))
+
+head(by_pais, 10)
+
+```
+
+* Por CNAE 
+
+```{r}
+
+by_cnae <- matriz_ativa_brasil %>%
+  group_by(cnae_fiscal) %>%
+  count(cnae_fiscal) %>%
+  arrange(desc(n))
+
+```
+
+
+
+* Por porte da empresa 
+
+```{r}
+
+by_porte <- matriz_ativa_brasil %>%
+  group_by(porte_empresa) %>%
+  count(porte_empresa) %>%
+  arrange(desc(n))
+
+```
+
+
+
+
+
+
+
