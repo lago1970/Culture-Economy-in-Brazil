@@ -45,3 +45,18 @@ head(CNAEs_CULTURA_SIIC_2010)
 ```
 
 
+```{r}
+CNAEs_CULTURA_SIIC_2010 <- CNAEs_CULTURA_SIIC_2010 %>%
+  select(CNAE, ATIVIDADE, `str_replace_all(CNAEs_CULTURA_SIIC_2010$CNAE, "[.,-]", "")`) %>%
+  rename(CNAE_2 = `str_replace_all(CNAEs_CULTURA_SIIC_2010$CNAE, "[.,-]", "")`) 
+
+CNAEs_CULTURA_SIIC_2010 <- within(CNAEs_CULTURA_SIIC_2010, {
+  class <- as.numeric(as.character(CNAE_2))
+})
+  
+CNAEs_CULTURA_SIIC_2010 <- rename(CNAEs_CULTURA_SIIC_2010, cnae_fiscal = class)
+
+head(CNAEs_CULTURA_SIIC_2010)
+
+```
+
