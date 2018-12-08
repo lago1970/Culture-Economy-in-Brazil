@@ -24,7 +24,7 @@ library(magrittr)
 
 #### __2. Carregando a base de dados__  
 ```{r}
-#cnaes.brasil.2018 <- read.csv("C:/Users/39121046387/Documents/empresa.csv", sep=";")
+cnaes.brasil.2018 <- read.csv("C:/Users/39121046387/Documents/empresa.csv", sep=";")
 
 ```
 
@@ -46,8 +46,6 @@ cnaes.ajuste <- select(empresa, identificador_matrizfilial, razao_socialnome_emp
 matriz_ativa_brasil <- filter(cnaes.ajuste, identificador_matrizfilial == 1, situacao_cadastral == 2)
 
 matriz_ativa_brasil <- transform(matriz_ativa_brasil, porte_empresa = factor(porte_empresa, label = c("Nao informado", "Microempresa", "Empresa de pequeno porte","Demais"), levels = c(0, 1, 3, 5)))
-
-#cnaes.ajuste <- mutate(porte_empresa = ifelse(0 = "NAO INFORMADO", 1 = "MICROEMPRESA", 3 = "EMPRESA DE PEQUENO PORTE", 5 = "DEMAIS"))
 
 ```
 
