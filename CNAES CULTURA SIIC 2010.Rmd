@@ -1,0 +1,62 @@
+---
+title: "CNAES CULTURA SIIC"
+author: "LAGO"
+date: "05/12/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, message=FALSE}
+
+library(readxl)
+library(tidyverse)
+library(tidyr)
+library(magrittr)
+library(stringr)
+library(splitstackshape)
+library(reshape2)  
+
+```
+
+
+```{r}
+CNAEs_CULTURA_SIIC_2010 <- read_excel("CNAEs CULTURA SIIC 2010.xlsx")
+head(CNAEs_CULTURA_SIIC_2010)
+```
+
+```{r}
+CNAEs_CULTURA_SIIC_2010 <-CNAEs_CULTURA_SIIC_2010 %>%  
+  separate(`Seção Divisão Grupo Classe Denominação`, into = c("CNAE", "ATIVIDADE"), sep = " ", remove = FALSE, extra = "merge")
+
+head(CNAEs_CULTURA_SIIC_2010)
+
+```
+
+```{r}
+
+CNAEs_CULTURA_SIIC_2010 <- CNAEs_CULTURA_SIIC_2010 %>%
+  mutate(str_replace_all(CNAEs_CULTURA_SIIC_2010$CNAE, "[.,-]", ""))
+
+head(CNAEs_CULTURA_SIIC_2010)
+
+```
+
+```{r}
+CNAEs_CULTURA_SIIC_2010 <- CNAEs_CULTURA_SIIC_2010 %>%
+  select(CNAE, ATIVIDADE, `str_replace_all(CNAEs_CULTURA_SIIC_2010$CNAE, "[.,-]", "")`) %>%
+  rename(CNAE_2 = `str_replace_all(CNAEs_CULTURA_SIIC_2010$CNAE, "[.,-]", "")`) 
+
+CNAEs_CULTURA_SIIC_2010 <- within(CNAEs_CULTURA_SIIC_2010, {
+  class <- as.numeric(as.character(CNAE_2))
+})
+  
+CNAEs_CULTURA_SIIC_2010 <- rename(CNAEs_CULTURA_SIIC_2010, cnae_fiscal = class)
+
+head(CNAEs_CULTURA_SIIC_2010)
+
+```
+
+
